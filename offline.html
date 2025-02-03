@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My Timer & Quiet Walk Game (Offline Version)</title>
+  <script>
+    // All JavaScript code from script.js is now here
+    let timer;
+    function startVisualTimer() {
+      let totalTime = 300;
+      let timeLeft = totalTime;
+      document.getElementById("timerDisplay").textContent = formatTime(timeLeft);
+      document.getElementById("progress").style.width = "100%";
+      clearInterval(timer);
+      timer = setInterval(() => {
+        timeLeft--;
+        if (timeLeft < 0) {
+          clearInterval(timer);
+          document.getElementById("reflection1").textContent = "Time's up! Great job! Did you see how the timer helped you focus?";
+        } else {
+          document.getElementById("timerDisplay").textContent = formatTime(timeLeft);
+          let progressWidth = (timeLeft / totalTime) * 100;
+          document.getElementById("progress").style.width = progressWidth + "%";
+          if (timeLeft === 30) {
+            alert("Only 30 seconds left! Finish up your drawing or writing!");
+          }
+        }
+      }, 1000);
+    }
+
+    function formatTime(seconds) {
+      let min = Math.floor(seconds / 60);
+      let sec = seconds % 60;
+      return min + ":" + (sec < 10 ? "0" : "") + sec;
+    }
+
+    let raceTimer;
+    let raceTime = 10;
+    let clicks = 0;
+    function startRace() {
+      clicks = 0;
+      document.getElementById("clickCount").textContent = clicks;
+      document.getElementById("clickButton").disabled = false;
+      document.getElementById("raceTimerDisplay").textContent = raceTime;
+      clearInterval(raceTimer);
+      raceTimer = setInterval(() => {
+        raceTime--;
+        document.getElementById("raceTimerDisplay").textContent = raceTime;
+        if (raceTime <= 0) {
+          clearInterval(raceTimer);
+          document.getElementById("clickButton").disabled = true;
+          document.getElementById("raceReflection").textContent = "Great job! You clicked " + clicks + " times!";
+          raceTime = 10;
+        }
+      }, 1000);
+    }
+
+    function recordClick() {
+      clicks++;
+      document.getElementById("clickCount").textContent = clicks;
+    }
+
+    let countdownTimer;
+    function startCountdown() {
+      let countdownTime = 120;
+      document.getElementById("countdownDisplay").textContent = formatTime(countdownTime);
+      clearInterval(countdownTimer);
+      countdownTimer = setInterval(() => {
+        countdownTime--;
+        if (countdownTime < 0) {
+          clearInterval(countdownTimer);
+          document.getElementById("activityMessage").textContent = "Time's up! Now, it's time for your next fun activity!";
+        } else {
+          document.getElementById("countdownDisplay").textContent = formatTime(countdownTime);
+        }
+      }, 1000);
+    }
+
+    let chooseTimer;
+    function chooseStart() {
+      document.getElementById("chooseTimerDisplay").textContent = "Your timer is on!";
+      let chooseTime = 60;
+      clearInterval(chooseTimer);
+      chooseTimer = setInterval(() => {
+        chooseTime--;
+        if (chooseTime < 0) {
+          clearInterval(chooseTimer);
+          document.getElementById("chooseReflection").textContent = "Great job! You managed your time all by yourself!";
+        } else {
+          document.getElementById("chooseTimerDisplay").textContent = "Time left: " + chooseTime + " seconds";
+        }
+      }, 1000);
+    }
+
+    function selfCheck() {
+      let c1 = document.getElementById("check1").checked;
+      let c2 = document.getElementById("check2").checked;
+      let c3 = document.getElementById("check3").checked;
+      if (c1 && c2 && c3) {
+        document.getElementById("selfCheckReflection").textContent = "Awesome! You did all your self-checks!";
+      } else {
+        document.getElementById("selfCheckReflection").textContent = "Try again! Check all the boxes to be sure.";
+      }
+    }
+
+    function finishQuietWalk() {
+      document.getElementById("quietWalkReflection").textContent = "Great job on your quiet walk! Keep being calm and steady!";
+    }
+
+    function setReminder() {
+      let reminderText = document.getElementById("reminderInput").value;
+      if (reminderText.trim() !== "") {
+        document.getElementById("myReminder").textContent = "Your reminder: " + reminderText;
+      } else {
+        document.getElementById("myReminder").textContent = "Please type your reminder!";
+      }
+    }
+  </script>
+  <style>
+    body {
+      font-family: "Comic Sans MS", cursive, sans-serif;
+      background-color: #f0f8ff;
+      text-align: center;
+      padding: 20px;
+    }
+    h1 {
+      color: #4CAF50;
+    }
+    .lesson {
+      border: 3px solid #4CAF50;
+      border-radius: 15px;
+      padding: 20px;
+      margin: 20px auto;
+      max-width: 600px;
+      background-color: #ffffff;
+      box-shadow: 2px 2px 10px rgba(0,0,0,0.1);
+    }
+    button {
+      font-size: 20px;
+      padding: 10px 20px;
+      margin: 10px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+    button:disabled {
+      background-color: #aaa;
+      cursor: not-allowed;
+    }
+    #timerDisplay, #raceTimerDisplay, #countdownDisplay, #chooseTimerDisplay {
+      font-size: 40px;
+      margin: 20px;
+      color: #ff5722;
+    }
+    #progressBar {
+      width: 80%;
+      background-color: #ddd;
+      border-radius: 10px;
+      overflow: hidden;
+      height: 30px;
+      margin: 20px auto;
+    }
+    #progress {
+      height: 100%;
+      background-color: #4CAF50;
+      width: 100%;
+    }
+    ul {
+      text-align: left;
+      display: inline-block;
+    }
+    li {
+      font-size: 20px;
+      margin: 10px 0;
+    }
+    input[type="text"] {
+      font-size: 20px;
+      padding: 5px;
+      width: 80%;
+      margin: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>My Timer & Quiet Walk Game (Offline Version)</h1>
+  
+  <div class="lesson" id="lesson1">
+    <h2>Lesson 1: My Visual Timer and Me</h2>
+    <p>Watch the timer go down as you work on your fun drawing or writing!</p>
+    <div id="timerDisplay">5:00</div>
+    <div id="progressBar"><div id="progress"></div></div>
+    <button onclick="startVisualTimer()">Start Timer</button>
+    <p id="reflection1"></p>
+  </div>
+  
+  <div class="lesson" id="lesson2">
+    <h2>Lesson 2: My Personal Timer Race</h2>
+    <p>Click the "Click Me!" button as many times as you can before time is up!</p>
+    <div id="raceTimerDisplay">10</div>
+    <button onclick="startRace()">Start Race</button>
+    <p>Clicks: <span id="clickCount">0</span></p>
+    <button id="clickButton" onclick="recordClick()" disabled>Click Me!</button>
+    <p id="raceReflection"></p>
+  </div>
+  
+  <div class="lesson" id="lesson3">
+    <h2>Lesson 3: My Countdown for Changing Activities</h2>
+    <p>When the timer ends, it's time to change your activity!</p>
+    <div id="countdownDisplay">2:00</div>
+    <button onclick="startCountdown()">Start Countdown</button>
+    <p id="activityMessage"></p>
+  </div>
+  
+  <div class="lesson" id="lesson5">
+    <h2>Lesson 5: I Choose When to Start</h2>
+    <p>Press the button when you are ready to start your work.</p>
+    <button onclick="chooseStart()">I Choose to Start!</button>
+    <div id="chooseTimerDisplay"></div>
+    <p id="chooseReflection"></p>
+  </div>
+  
+  <div class="lesson" id="lesson6">
+    <h2>Lesson 6: My Self-Check for Quiet Transitions</h2>
+    <p>Let's check if we're being calm and quiet when we move!</p>
+    <ul>
+      <li><input type="checkbox" id="check1"> Keep my hands at my sides</li>
+      <li><input type="checkbox" id="check2"> Walk quietly</li>
+      <li><input type="checkbox" id="check3"> Keep my eyes forward</li>
+    </ul>
+    <button onclick="selfCheck()">I did it!</button>
+    <p id="selfCheckReflection"></p>
+  </div>
+  
+  <div class="lesson" id="lesson7">
+    <h2>Lesson 7: My Quiet Walk Challenge</h2>
+    <p>Take a quiet walk. When you're done, press the button!</p>
+    <button onclick="finishQuietWalk()">I finished my quiet walk!</button>
+    <p id="quietWalkReflection"></p>
+  </div>
+  
+  <div class="lesson" id="lesson8">
+    <h2>Lesson 8: Creating My Own Reminder</h2>
+    <p>Type a short reminder to help you remember to be quiet and kind.</p>
+    <input type="text" id="reminderInput" placeholder="My reminder...">
+    <button onclick="setReminder()">Set My Reminder</button>
+    <p id="myReminder"></p>
+  </div>
+</body>
+</html>
