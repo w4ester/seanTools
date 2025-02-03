@@ -1,147 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>My Timer & Quiet Walk Game</title>
-  <style>
-    body {
-      font-family: "Comic Sans MS", cursive, sans-serif;
-      background-color: #f0f8ff;
-      text-align: center;
-      padding: 20px;
-    }
-    h1 {
-      color: #4CAF50;
-    }
-    .lesson {
-      border: 3px solid #4CAF50;
-      border-radius: 15px;
-      padding: 20px;
-      margin: 20px auto;
-      max-width: 600px;
-      background-color: #ffffff;
-      box-shadow: 2px 2px 10px rgba(0,0,0,0.1);
-    }
-    button {
-      font-size: 20px;
-      padding: 10px 20px;
-      margin: 10px;
-      background-color: #4CAF50;
-      color: white;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-    }
-    button:disabled {
-      background-color: #aaa;
-      cursor: not-allowed;
-    }
-    #timerDisplay, #raceTimerDisplay, #countdownDisplay, #chooseTimerDisplay {
-      font-size: 40px;
-      margin: 20px;
-      color: #ff5722;
-    }
-    #progressBar {
-      width: 80%;
-      background-color: #ddd;
-      border-radius: 10px;
-      overflow: hidden;
-      height: 30px;
-      margin: 20px auto;
-    }
-    #progress {
-      height: 100%;
-      background-color: #4CAF50;
-      width: 100%;
-    }
-    ul {
-      text-align: left;
-      display: inline-block;
-    }
-    li {
-      font-size: 20px;
-      margin: 10px 0;
-    }
-    input[type="text"] {
-      font-size: 20px;
-      padding: 5px;
-      width: 80%;
-      margin: 10px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <title>Timer & Transition Tools</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>My Timer & Quiet Walk Game</h1>
-  
-  <!-- Lesson 1: My Visual Timer and Me -->
-  <div class="lesson" id="lesson1">
-    <h2>Lesson 1: My Visual Timer and Me</h2>
-    <p>Watch the timer go down as you work on your fun drawing or writing!</p>
-    <div id="timerDisplay">5:00</div>
-    <div id="progressBar"><div id="progress"></div></div>
-    <button onclick="startVisualTimer()">Start Timer</button>
-    <p id="reflection1"></p>
-  </div>
-  
-  <!-- Lesson 2: My Personal Timer Race -->
-  <div class="lesson" id="lesson2">
-    <h2>Lesson 2: My Personal Timer Race</h2>
-    <p>Click the "Click Me!" button as many times as you can before time is up!</p>
-    <div id="raceTimerDisplay">10</div>
-    <button onclick="startRace()">Start Race</button>
-    <p>Clicks: <span id="clickCount">0</span></p>
-    <button id="clickButton" onclick="recordClick()" disabled>Click Me!</button>
-    <p id="raceReflection"></p>
-  </div>
-  
-  <!-- Lesson 3: My Countdown for Changing Activities -->
-  <div class="lesson" id="lesson3">
-    <h2>Lesson 3: My Countdown for Changing Activities</h2>
-    <p>When the timer ends, it's time to change your activity!</p>
-    <div id="countdownDisplay">2:00</div>
-    <button onclick="startCountdown()">Start Countdown</button>
-    <p id="activityMessage"></p>
-  </div>
-  
-  <!-- Lesson 5: I Choose When to Start -->
-  <div class="lesson" id="lesson5">
-    <h2>Lesson 5: I Choose When to Start</h2>
-    <p>Press the button when you are ready to start your work.</p>
-    <button onclick="chooseStart()">I Choose to Start!</button>
-    <div id="chooseTimerDisplay"></div>
-    <p id="chooseReflection"></p>
-  </div>
-  
-  <!-- Lesson 6: My Self-Check for Quiet Transitions -->
-  <div class="lesson" id="lesson6">
-    <h2>Lesson 6: My Self-Check for Quiet Transitions</h2>
-    <p>Let's check if we're being calm and quiet when we move!</p>
-    <ul>
-      <li><input type="checkbox" id="check1"> Keep my hands at my sides</li>
-      <li><input type="checkbox" id="check2"> Walk quietly</li>
-      <li><input type="checkbox" id="check3"> Keep my eyes forward</li>
-    </ul>
-    <button onclick="selfCheck()">I did it!</button>
-    <p id="selfCheckReflection"></p>
-  </div>
-  
-  <!-- Lesson 7: My Quiet Walk Challenge -->
-  <div class="lesson" id="lesson7">
-    <h2>Lesson 7: My Quiet Walk Challenge</h2>
-    <p>Take a quiet walk. When you're done, press the button!</p>
-    <button onclick="finishQuietWalk()">I finished my quiet walk!</button>
-    <p id="quietWalkReflection"></p>
-  </div>
-  
-  <!-- Lesson 8: Creating My Own Reminder -->
-  <div class="lesson" id="lesson8">
-    <h2>Lesson 8: Creating My Own Reminder</h2>
-    <p>Type a short reminder to help you remember to be quiet and kind.</p>
-    <input type="text" id="reminderInput" placeholder="My reminder...">
-    <button onclick="setReminder()">Set My Reminder</button>
-    <p id="myReminder"></p>
-  </div>
-  
-  <script src="script.js"></script>
+    <div id="loginSection" class="auth-section">
+        <h2>Student Login</h2>
+        <input type="text" id="username" placeholder="Username">
+        <input type="password" id="password" placeholder="Password">
+        <button onclick="login()">Login</button>
+        <p><a href="/admin/admin.html">Teacher Login</a></p>
+    </div>
+
+    <div id="mainContent" style="display: none;">
+        <!-- Original content here -->
+    </div>
+
+    <script src="student/login.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
