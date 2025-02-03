@@ -38,8 +38,8 @@ let adminSession = {
         });
 
         // Redirect to login page if not already there
-        if (window.location.pathname !== '/admin/admin.html') {
-            window.location.href = '/admin/admin.html';
+        if (window.location.pathname !== '/seanTools/admin/admin.html') {
+            window.location.href = '/seanTools/admin/admin.html';
         }
     }
 };
