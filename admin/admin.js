@@ -1,36 +1,36 @@
-// Admin control functions
-const adminControls = {
-    // Timer controls
-    stopAllTimers() {
-        clearInterval(timer);
-        clearInterval(raceTimer);
-        clearInterval(countdownTimer);
-        clearInterval(chooseTimer);
-    },
+// Admin authentication
+function adminLogin() {
+    const username = document.getElementById('adminUsername').value;
+    const password = document.getElementById('adminPassword').value;
     
-    // Update timer durations
-    updateTimerDuration(lessonId, duration) {
-        timerSettings[lessonId] = duration;
-        localStorage.setItem('timerSettings', JSON.stringify(timerSettings));
-    },
-    
-    // Student progress tracking
-    viewStudentProgress(studentId) {
-        return JSON.parse(localStorage.getItem(`student_${studentId}_progress`) || '{}');
-    },
-    
-    // Race game settings
-    updateRaceSettings(duration, targetClicks) {
-        raceSettings.duration = duration;
-        raceSettings.targetClicks = targetClicks;
-        localStorage.setItem('raceSettings', JSON.stringify(raceSettings));
+    if (username === 'admin' && password === 'admin123') {
+        document.getElementById('loginForm').style.display = 'none';
+        document.getElementById('adminPanel').style.display = 'block';
+        loadTimerSettings();
+    } else {
+        alert('Invalid credentials');
     }
-};
+}
 
-// Initial settings
-const timerSettings = {
-    visualTimer: 300,
-    raceTimer: 10,
-    countdownTimer: 120,
-    chooseTimer: 60
-};
+// Timer settings management
+function updateTimer(lessonId, duration) {
+    const settings = JSON.parse(localStorage.getItem('timerSettings') || '{}');
+    settings[lessonId] = parseInt(duration);
+    localStorage.setItem('timerSettings', JSON.stringify(settings));
+    alert(`Timer for ${lessonId} updated to ${duration} seconds`);
+}
+
+function loadTimerSettings() {
+    const settings = JSON.parse(localStorage.getItem('timerSettings') || '{}');
+    Object.entries(settings).forEach(([id, duration]) => {
+        const input = document.getElementById(id);
+        if (input) input.value = duration;
+    });
+}
+
+function stopAllTimers() {
+    // Send message to main page to stop timers
+    localStorage.setItem('stopTimers', 'true');
+    alert('All timers stopped');
+    setTimeout(() => localStorage.removeItem('stopTimers'), 1000);
+}

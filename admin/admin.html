@@ -4,47 +4,40 @@
     <meta charset="UTF-8">
     <title>Teacher Admin Panel</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        .control-panel {
-            border: 1px solid #ccc;
-            padding: 20px;
-            margin: 10px 0;
-            border-radius: 5px;
-        }
-        .student-list {
-            height: 300px;
-            overflow-y: auto;
-        }
+        body { font-family: Arial; max-width: 800px; margin: 20px auto; padding: 20px; }
+        .panel { border: 1px solid #ccc; padding: 20px; margin: 10px 0; border-radius: 5px; }
+        input[type="number"] { width: 100px; }
     </style>
 </head>
 <body>
-    <h1>Teacher Admin Panel</h1>
-    
-    <div class="control-panel">
-        <h2>Timer Controls</h2>
-        <button onclick="adminControls.stopAllTimers()">Stop All Timers</button>
-        
-        <h3>Adjust Timer Durations</h3>
-        <label>Visual Timer:
-            <input type="number" id="visualTimer" value="300" onchange="adminControls.updateTimerDuration('visualTimer', this.value)">
-        </label><br>
-        <label>Race Timer:
-            <input type="number" id="raceTimer" value="10" onchange="adminControls.updateTimerDuration('raceTimer', this.value)">
-        </label>
+    <div id="loginForm">
+        <h2>Teacher Login</h2>
+        <input type="text" id="adminUsername" placeholder="Username">
+        <input type="password" id="adminPassword" placeholder="Password">
+        <button onclick="adminLogin()">Login</button>
     </div>
-    
-    <div class="control-panel">
-        <h2>Student Progress</h2>
-        <div class="student-list" id="studentProgress">
-            <!-- Populated dynamically -->
+
+    <div id="adminPanel" style="display: none;">
+        <h2>Timer Controls</h2>
+        
+        <div class="panel">
+            <h3>Visual Timer</h3>
+            <input type="number" id="visualTimer" value="300">
+            <button onclick="updateTimer('visualTimer', document.getElementById('visualTimer').value)">Update</button>
+        </div>
+
+        <div class="panel">
+            <h3>Race Timer</h3>
+            <input type="number" id="raceTimer" value="10">
+            <button onclick="updateTimer('raceTimer', document.getElementById('raceTimer').value)">Update</button>
+        </div>
+
+        <div class="panel">
+            <h3>Emergency Controls</h3>
+            <button onclick="stopAllTimers()">Stop All Timers</button>
         </div>
     </div>
-    
+
     <script src="admin.js"></script>
 </body>
 </html>
