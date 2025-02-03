@@ -1,4 +1,15 @@
-// Load timer settings from admin panel
+/**
+ * EDUCATOR CONTROLS & SETTINGS
+ * ==============================
+ * This section handles all timer durations and settings that can be modified from admin dashboard
+ * Default values are set here but can be overridden from admin panel
+ * Teachers can:
+ * - Modify all timer durations
+ * - Stop any active timer
+ * - Track student progress
+ * - Enable/disable audio feedback
+ */
+
 function getTimerDuration(timerId) {
     const settings = JSON.parse(localStorage.getItem('timerSettings') || '{}');
     return settings[timerId] || {
@@ -30,9 +41,69 @@ function formatTime(seconds) {
     return min + ":" + (sec < 10 ? "0" : "") + sec;
 }
 
+/**
+ * AUDIO FEEDBACK SYSTEM
+ * ==============================
+ * Provides age-appropriate audio cues for young learners
+ * - Start: Gentle beep to indicate timer has begun
+ * - 30s warning: Friendly alert sound
+ * - End: Completion sound
+ * Can be enabled/disabled from admin panel
+ */
+/**
+ * AUDIO MANAGEMENT SYSTEM
+ * ==============================
+ * Centralized audio control with proper error handling
+ * Supports both effects and voice instructions
+ * Can be globally enabled/disabled from admin panel
+ */
+const AudioManager = {
+    sounds: {
+        start: new Audio('assets/sounds/start.mp3'),
+        warning: new Audio('assets/sounds/warning.mp3'),
+        complete: new Audio('assets/sounds/complete.mp3')
+    },
+    
+    isEnabled: function() {
+        return localStorage.getItem('audioEnabled') !== 'false';
+    },
+    
+    play: function(soundName) {
+        if (this.isEnabled() && this.sounds[soundName]) {
+            this.sounds[soundName].play().catch(err => {
+                console.log(`Audio ${soundName} failed to play:`, err);
+            });
+        }
+    },
+    
+    preloadAll: function() {
+        Object.values(this.sounds).forEach(audio => {
+            audio.load();
+        });
+    }
+};
+
+// Preload sounds when script loads
+AudioManager.preloadAll();
+
+/**
+ * VISUAL TIMER
+ * ==============================
+ * Purpose: Helps students track work time visually
+ * Features:
+ * - Progress bar for visual feedback
+ * - 30-second warning
+ * - Audio cues if enabled
+ * - Positive reflection prompt on completion
+ */
 function startVisualTimer() {
+    AudioManager.play('start');
     let totalTime = getTimerDuration('visualTimer');
     let timeLeft = totalTime;
+    const timerContainer = document.querySelector('.timer-container');
+    
+    // Reset timer state
+    timerContainer.classList.remove('timer-warning', 'timer-complete');
     document.getElementById("timerDisplay").textContent = formatTime(timeLeft);
     document.getElementById("progress").style.width = "100%";
     clearInterval(timer);
@@ -41,13 +112,23 @@ function startVisualTimer() {
         timeLeft--;
         if (timeLeft < 0) {
             clearInterval(timer);
+            AudioManager.play('complete');
+            timerContainer.classList.add('timer-complete');
             document.getElementById("reflection1").textContent = "Time's up! Great job! Did you see how the timer helped you focus?";
+            
+            // Add celebration animation
+            document.getElementById("progress").style.width = "100%";
         } else {
             document.getElementById("timerDisplay").textContent = formatTime(timeLeft);
             let progressWidth = (timeLeft / totalTime) * 100;
             document.getElementById("progress").style.width = progressWidth + "%";
+            
+            // Handle warning state
             if (timeLeft === 30) {
-                alert("Only 30 seconds left! Finish up your drawing or writing!");
+                AudioManager.play('warning');
+                timerContainer.classList.add('timer-warning');
+                // Use gentle notification for young students
+                document.getElementById("reflection1").textContent = "Almost done! 30 seconds left to finish up!";
             }
         }
     }, 1000);

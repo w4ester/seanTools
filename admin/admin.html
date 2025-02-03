@@ -2,42 +2,85 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Teacher Admin Panel</title>
-    <style>
-        body { font-family: Arial; max-width: 800px; margin: 20px auto; padding: 20px; }
-        .panel { border: 1px solid #ccc; padding: 20px; margin: 10px 0; border-radius: 5px; }
-        input[type="number"] { width: 100px; }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Dashboard</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="admin-style.css">
 </head>
 <body>
-    <div id="loginForm">
+    <div id="loginForm" class="auth-section">
         <h2>Teacher Login</h2>
         <input type="text" id="adminUsername" placeholder="Username">
         <input type="password" id="adminPassword" placeholder="Password">
         <button onclick="adminLogin()">Login</button>
+        <p><a href="../index.html">Back to Student Login</a></p>
     </div>
 
     <div id="adminPanel" style="display: none;">
-        <h2>Timer Controls</h2>
+        <header class="admin-header">
+            <h1>Teacher Control Panel</h1>
+            <button onclick="adminSession.end()" class="logout-btn">Logout</button>
+        </header>
         
-        <div class="panel">
-            <h3>Visual Timer</h3>
-            <input type="number" id="visualTimer" value="300">
-            <button onclick="updateTimer('visualTimer', document.getElementById('visualTimer').value)">Update</button>
-        </div>
+        <div class="admin-content">
+            <section class="control-section">
+                <h2>Timer Controls</h2>
+                <div class="timer-settings">
+                    <div class="timer-control">
+                        <label>Visual Timer (seconds):</label>
+                        <input type="number" id="visualTimer" min="30" max="600">
+                        <button onclick="updateTimer('visualTimer', document.getElementById('visualTimer').value)">Update</button>
+                    </div>
+                    <div class="timer-control">
+                        <label>Race Timer (seconds):</label>
+                        <input type="number" id="raceTimer" min="5" max="30">
+                        <button onclick="updateTimer('raceTimer', document.getElementById('raceTimer').value)">Update</button>
+                    </div>
+                    <div class="timer-control">
+                        <label>Activity Timer (seconds):</label>
+                        <input type="number" id="countdownTimer" min="30" max="300">
+                        <button onclick="updateTimer('countdownTimer', document.getElementById('countdownTimer').value)">Update</button>
+                    </div>
+                </div>
+            </section>
 
-        <div class="panel">
-            <h3>Race Timer</h3>
-            <input type="number" id="raceTimer" value="10">
-            <button onclick="updateTimer('raceTimer', document.getElementById('raceTimer').value)">Update</button>
-        </div>
+            <section class="control-section">
+                <h2>Student Management</h2>
+                <div class="student-form">
+                    <h3>Add New Student</h3>
+                    <input type="text" id="newStudentUsername" placeholder="Username">
+                    <input type="text" id="newStudentDisplayName" placeholder="Display Name">
+                    <input type="password" id="newStudentPassword" placeholder="Password">
+                    <button onclick="addStudent()">Add Student</button>
+                </div>
+                <div class="student-list" id="studentList">
+                    <!-- Student list will be populated here -->
+                </div>
+            </section>
 
-        <div class="panel">
-            <h3>Emergency Controls</h3>
-            <button onclick="stopAllTimers()">Stop All Timers</button>
+            <section class="control-section">
+                <h2>Audio Settings</h2>
+                <div class="audio-controls">
+                    <button onclick="toggleAudioFeedback(true)">Enable Sounds</button>
+                    <button onclick="toggleAudioFeedback(false)">Disable Sounds</button>
+                </div>
+            </section>
+
+            <section class="control-section">
+                <h2>Student Progress</h2>
+                <div class="progress-display" id="progressDisplay">
+                    <!-- Progress data will be displayed here -->
+                </div>
+            </section>
+
+            <section class="control-section emergency">
+                <h2>Emergency Controls</h2>
+                <button onclick="stopAllTimers()" class="emergency-btn">STOP ALL TIMERS</button>
+            </section>
         </div>
     </div>
 
+    <script src="config.js"></script>
     <script src="admin.js"></script>
 </body>
 </html>

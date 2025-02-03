@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+    <!-- Timer base in complete state -->
+    <circle cx="32" cy="32" r="30" fill="none" stroke="#4CAF50" stroke-width="4"/>
+    <!-- Checkmark -->
+    <path d="M20 32l8 8 16-16" stroke="#4CAF50" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+    <!-- Celebration stars -->
+    <path d="M16 16l-4-4M16 48l-4 4M48 16l4-4M48 48l4 4" 
+          stroke="#4CAF50" stroke-width="2" stroke-linecap="round"/>
+</svg>

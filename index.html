@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Timer & Transition Tools</title>
     <link rel="stylesheet" href="style.css">
 </head>
@@ -20,8 +21,11 @@
         <div class="lesson" id="lesson1">
             <h2>Lesson 1: My Visual Timer and Me</h2>
             <p>Watch the timer go down as you work on your fun drawing or writing!</p>
-            <div id="timerDisplay">5:00</div>
-            <div id="progressBar"><div id="progress"></div></div>
+            <div class="timer-container">
+                <div class="timer-icon"></div>
+                <div id="timerDisplay">5:00</div>
+                <div id="progressBar"><div id="progress"></div></div>
+            </div>
             <button onclick="startVisualTimer()">Start Timer</button>
             <p id="reflection1"></p>
         </div>
