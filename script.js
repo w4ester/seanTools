@@ -206,6 +206,14 @@ function finishQuietWalk() {
     document.getElementById("quietWalkReflection").textContent = "Great job on your quiet walk! Keep being calm and steady!";
 }
 
+function triggerConfetti() {
+  confetti({
+    particleCount: 100,   // Number of confetti particles
+    spread: 70,           // How far the particles spread out
+    origin: { y: 0.6 }     // Y origin (0 = top, 1 = bottom)
+  });
+}
+
 function setReminder() {
     let reminderText = document.getElementById("reminderInput").value;
     if (reminderText.trim() !== "") {
