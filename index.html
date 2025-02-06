@@ -2,65 +2,104 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Timer & Transition Tools</title>
-  <link rel="stylesheet" href="style.css" />
-  <style>
-    /* Additional styles for the Spelling Challenge section */
-    .spelling-container {
-      margin-top: 20px;
-      border-top: 1px solid #ccc;
-      padding-top: 15px;
-    }
-    .letter-button {
-      display: inline-block;
-      margin: 5px;
-      padding: 10px 15px;
-      font-size: 20px;
-      cursor: pointer;
-      border: 1px solid #333;
-      background-color: #fff;
-    }
-    .letter-button.correct {
-      background-color: #8f8;
-      border-color: #080;
-      cursor: default;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <!-- Login Section -->
   <div id="loginSection" class="auth-section">
     <h2>Student Login</h2>
-    <input type="text" id="username" placeholder="Username" />
-    <input type="password" id="password" placeholder="Password" />
+    <input type="text" id="username" placeholder="Username">
+    <input type="password" id="password" placeholder="Password">
     <button onclick="login()">Login</button>
     <p><a href="./admin/admin.html">Teacher Login</a></p>
   </div>
 
+  <!-- Main Content -->
   <div id="mainContent" style="display: none;">
     <h1>My Timer & Quiet Walk Game</h1>
-    
-    <!-- Lesson 2: My Personal Timer Race -->
+
+    <!-- Lesson 1: Visual Timer -->
+    <div class="lesson" id="lesson1">
+      <h2>Lesson 1: My Visual Timer and Me</h2>
+      <p>Watch the timer go down as you work on your fun drawing or writing!</p>
+      <div class="timer-container">
+        <div class="timer-icon"></div>
+        <div id="timerDisplay">5:00</div>
+        <div id="progressBar"><div id="progress"></div></div>
+      </div>
+      <button onclick="startVisualTimer()">Start Timer</button>
+      <p id="reflection1"></p>
+    </div>
+
+    <!-- Lesson 2: Personal Timer Race -->
     <div class="lesson" id="lesson2">
       <h2>Lesson 2: My Personal Timer Race</h2>
-      <p>
-        Click the "Click Me!" button as many times as you can before time is up!
-      </p>
+      <p>Click the "Click Me!" button as many times as you can before time is up!</p>
       <div id="raceTimerDisplay">10</div>
       <button onclick="startRace()">Start Race</button>
       <p>Clicks: <span id="clickCount">0</span></p>
       <button id="clickButton" onclick="recordClick()" disabled>Click Me!</button>
       <p id="raceReflection"></p>
     </div>
-    
-    <!-- Spelling Challenge Section -->
+
+    <!-- Lesson 3: Countdown for Changing Activities -->
+    <div class="lesson" id="lesson3">
+      <h2>Lesson 3: My Countdown for Changing Activities</h2>
+      <p>When the timer ends, it's time to change your activity!</p>
+      <div id="countdownDisplay">2:00</div>
+      <button onclick="startCountdown()">Start Countdown</button>
+      <p id="activityMessage"></p>
+    </div>
+
+    <!-- Lesson 5: I Choose When to Start -->
+    <div class="lesson" id="lesson5">
+      <h2>Lesson 5: I Choose When to Start</h2>
+      <p>Press the button when you are ready to start your work.</p>
+      <button onclick="chooseStart()">I Choose to Start!</button>
+      <div id="chooseTimerDisplay"></div>
+      <p id="chooseReflection"></p>
+    </div>
+
+    <!-- Lesson 6: Self-Check for Quiet Transitions -->
+    <div class="lesson" id="lesson6">
+      <h2>Lesson 6: My Self-Check for Quiet Transitions</h2>
+      <p>Let's check if we're being calm and quiet when we move!</p>
+      <ul>
+        <li><input type="checkbox" id="check1"> Keep my hands at my sides</li>
+        <li><input type="checkbox" id="check2"> Walk quietly</li>
+        <li><input type="checkbox" id="check3"> Keep my eyes forward</li>
+      </ul>
+      <button onclick="selfCheck()">I did it!</button>
+      <p id="selfCheckReflection"></p>
+    </div>
+
+    <!-- Lesson 7: Quiet Walk Challenge -->
+    <div class="lesson" id="lesson7">
+      <h2>Lesson 7: My Quiet Walk Challenge</h2>
+      <p>Take a quiet walk. When you're done, press the button!</p>
+      <button onclick="finishQuietWalk()">I finished my quiet walk!</button>
+      <p id="quietWalkReflection"></p>
+    </div>
+
+    <!-- Lesson 8: Creating My Own Reminder -->
+    <div class="lesson" id="lesson8">
+      <h2>Lesson 8: Creating My Own Reminder</h2>
+      <p>Type a short reminder to help you remember to be quiet and kind.</p>
+      <input type="text" id="reminderInput" placeholder="My reminder...">
+      <button onclick="setReminder()">Set My Reminder</button>
+      <p id="myReminder"></p>
+    </div>
+
+    <!-- Spelling Challenge Section (New Section) -->
     <div class="lesson" id="spellingChallenge">
       <h2>Spelling Challenge</h2>
       <p>
         Upload your spelling words for the week and then click the letters to spell the word.
         When you spell it correctly, confetti will celebrate your success!
       </p>
-      <input type="file" id="wordFile" accept=".txt" />
+      <input type="file" id="wordFile" accept=".txt">
       <button onclick="loadSpellingWords()">Load Words</button>
       <div id="spellingGame" class="spelling-container" style="display: none;">
         <h3 id="currentWordDisplay"></h3>
@@ -70,171 +109,10 @@
     </div>
   </div>
 
-  <!-- Existing scripts -->
+  <!-- Existing & Custom Scripts -->
   <script src="student/login.js"></script>
   <script src="script.js"></script>
-  <!-- Include the canvas-confetti library -->
+  <!-- canvas-confetti library -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-  <script>
-    // --------------------------
-    // Spelling Challenge Section
-    // --------------------------
-    let spellingWords = [];
-    let currentWord = "";
-    let currentIndex = 0;
-
-    // Load spelling words from an uploaded file.
-    function loadSpellingWords() {
-      const fileInput = document.getElementById("wordFile");
-      if (fileInput.files.length === 0) {
-        alert("Please select a file containing spelling words.");
-        return;
-      }
-      const file = fileInput.files[0];
-      const reader = new FileReader();
-      reader.onload = function (e) {
-        // Assuming each word is on a new line.
-        spellingWords = e.target.result
-          .split(/\r?\n/)
-          .map(word => word.trim())
-          .filter(word => word !== "");
-        if (spellingWords.length > 0) {
-          document.getElementById("spellingGame").style.display = "block";
-          loadNextWord();
-        } else {
-          alert("No words found in the file.");
-        }
-      };
-      reader.readAsText(file);
-    }
-
-    // Load the next word to be spelled.
-    function loadNextWord() {
-      if (spellingWords.length === 0) return;
-      // You can randomize the selection if you prefer.
-      currentWord = spellingWords.shift().toUpperCase();
-      currentIndex = 0;
-      document.getElementById("currentWordDisplay").textContent =
-        "Spell: " + currentWord;
-      document.getElementById("spellingMessage").textContent = "";
-      renderLetterButtons();
-    }
-
-    // Render clickable letter buttons (A-Z).
-    function renderLetterButtons() {
-      const container = document.getElementById("letterButtons");
-      container.innerHTML = "";
-      for (let i = 65; i <= 90; i++) {
-        const letter = String.fromCharCode(i);
-        const btn = document.createElement("button");
-        btn.textContent = letter;
-        btn.className = "letter-button";
-        btn.onclick = () => checkLetter(letter, btn);
-        container.appendChild(btn);
-      }
-    }
-
-    // Check the clicked letter against the expected letter.
-    function checkLetter(letter, btn) {
-      if (letter === currentWord[currentIndex]) {
-        btn.classList.add("correct");
-        currentIndex++;
-        // If the word is fully spelled.
-        if (currentIndex === currentWord.length) {
-          document.getElementById("spellingMessage").textContent =
-            "Correct! Great job!";
-          triggerConfetti();
-          disableLetterButtons(true);
-          // Load the next word after 2 seconds.
-          setTimeout(() => {
-            disableLetterButtons(false);
-            loadNextWord();
-          }, 2000);
-        }
-      } else {
-        document.getElementById("spellingMessage").textContent =
-          "Incorrect letter. Try again!";
-      }
-    }
-
-    // Disable or enable all letter buttons.
-    function disableLetterButtons(disable) {
-      const buttons = document.querySelectorAll(".letter-button");
-      buttons.forEach((btn) => {
-        btn.disabled = disable;
-      });
-    }
-
-    // --------------------------
-    // Confetti Trigger Function
-    // --------------------------
-    function triggerConfetti() {
-      confetti({
-        particleCount: 150,
-        spread: 100,
-        origin: { y: 0.6 }
-      });
-    }
-
-    // --------------------------
-    // Timer & Race Code (Lesson 2)
-    // --------------------------
-    let timer, raceTimer, countdownTimer, chooseTimer;
-    let clicks = 0;
-
-    function startRace() {
-      clicks = 0;
-      let raceTime = getTimerDuration("raceTimer");
-      document.getElementById("clickCount").textContent = clicks;
-      document.getElementById("clickButton").disabled = false;
-      document.getElementById("raceTimerDisplay").textContent = raceTime;
-      clearInterval(raceTimer);
-
-      raceTimer = setInterval(() => {
-        raceTime--;
-        document.getElementById("raceTimerDisplay").textContent = raceTime;
-        if (raceTime <= 0) {
-          clearInterval(raceTimer);
-          document.getElementById("clickButton").disabled = true;
-          document.getElementById("raceReflection").textContent =
-            "Great job! You clicked " + clicks + " times!";
-          raceTime = getTimerDuration("raceTimer");
-        }
-      }, 1000);
-    }
-
-    function recordClick() {
-      clicks++;
-      document.getElementById("clickCount").textContent = clicks;
-    }
-
-    // --------------------------
-    // Helper & Login Functions
-    // --------------------------
-    function getTimerDuration(timerId) {
-      const settings = JSON.parse(localStorage.getItem("timerSettings") || "{}");
-      return (
-        settings[timerId] ||
-        {
-          visualTimer: 300,
-          raceTimer: 10,
-          countdownTimer: 120,
-          chooseTimer: 60,
-        }[timerId]
-      );
-    }
-
-    function login() {
-      const username = document.getElementById("username").value;
-      const password = document.getElementById("password").value;
-      if (username && password) {
-        document.getElementById("loginSection").style.display = "none";
-        document.getElementById("mainContent").style.display = "block";
-        localStorage.setItem("currentUser", username);
-      } else {
-        alert("Please enter username and password");
-      }
-    }
-  </script>
 </body>
 </html>
