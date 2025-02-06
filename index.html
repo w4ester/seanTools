@@ -6,7 +6,7 @@
   <title>Timer & Transition Tools</title>
   <link rel="stylesheet" href="style.css" />
   <style>
-    /* Additional styles for the spelling challenge */
+    /* Additional styles for the Spelling Challenge section */
     .spelling-container {
       margin-top: 20px;
       border-top: 1px solid #ccc;
@@ -39,9 +39,7 @@
 
   <div id="mainContent" style="display: none;">
     <h1>My Timer & Quiet Walk Game</h1>
-
-    <!-- Lesson 1, 3, etc. go here… (omitted for brevity) -->
-
+    
     <!-- Lesson 2: My Personal Timer Race -->
     <div class="lesson" id="lesson2">
       <h2>Lesson 2: My Personal Timer Race</h2>
@@ -54,14 +52,13 @@
       <button id="clickButton" onclick="recordClick()" disabled>Click Me!</button>
       <p id="raceReflection"></p>
     </div>
-
-    <!-- New Lesson 9: Spelling Challenge -->
-    <div class="lesson" id="lesson9">
-      <h2>Lesson 9: Spelling Challenge</h2>
+    
+    <!-- Spelling Challenge Section -->
+    <div class="lesson" id="spellingChallenge">
+      <h2>Spelling Challenge</h2>
       <p>
-        Upload your spelling words for the week and then click the letters to
-        spell the word. When you spell it correctly, confetti will celebrate your
-        success!
+        Upload your spelling words for the week and then click the letters to spell the word.
+        When you spell it correctly, confetti will celebrate your success!
       </p>
       <input type="file" id="wordFile" accept=".txt" />
       <button onclick="loadSpellingWords()">Load Words</button>
@@ -114,7 +111,7 @@
     // Load the next word to be spelled.
     function loadNextWord() {
       if (spellingWords.length === 0) return;
-      // Get the first word from the list (or randomize if preferred).
+      // You can randomize the selection if you prefer.
       currentWord = spellingWords.shift().toUpperCase();
       currentIndex = 0;
       document.getElementById("currentWordDisplay").textContent =
@@ -172,7 +169,6 @@
     // Confetti Trigger Function
     // --------------------------
     function triggerConfetti() {
-      // This uses the globally available canvas-confetti.
       confetti({
         particleCount: 150,
         spread: 100,
@@ -181,7 +177,7 @@
     }
 
     // --------------------------
-    // (Existing Timer & Race Code)
+    // Timer & Race Code (Lesson 2)
     // --------------------------
     let timer, raceTimer, countdownTimer, chooseTimer;
     let clicks = 0;
@@ -212,7 +208,9 @@
       document.getElementById("clickCount").textContent = clicks;
     }
 
-    // Placeholder for getTimerDuration() function and other existing code...
+    // --------------------------
+    // Helper & Login Functions
+    // --------------------------
     function getTimerDuration(timerId) {
       const settings = JSON.parse(localStorage.getItem("timerSettings") || "{}");
       return (
@@ -226,7 +224,6 @@
       );
     }
 
-    // Login function (placeholder)
     function login() {
       const username = document.getElementById("username").value;
       const password = document.getElementById("password").value;
