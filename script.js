@@ -54,33 +54,33 @@ function getTimerDuration(timerId) {
   );
 }
 
-// Define the bees confetti effect as a function
 function startBeesConfetti() {
-  // Set the end time for the animation (15 * 200 = 3000ms)
+  console.log("Starting bees confetti...");
+  // Duration: 15 iterations of 200ms each = 3000ms total.
   var end = Date.now() + (15 * 200);
-  // Define your custom colors
   var colors = ['#000000', '#EFBF04'];
 
-  // Recursive function to fire confetti on each animation frame
   (function frame() {
+    // Increase particleCount slightly for better visibility.
     confetti({
-      particleCount: 2,
+      particleCount: 5,  // increased from 2
       angle: 60,
       spread: 55,
       origin: { x: 0 },
       colors: colors
     });
     confetti({
-      particleCount: 2,
+      particleCount: 5,  // increased from 2
       angle: 120,
       spread: 55,
       origin: { x: 1 },
       colors: colors
     });
 
-    // Continue until the current time is past the end time
     if (Date.now() < end) {
       requestAnimationFrame(frame);
+    } else {
+      console.log("Bees confetti finished.");
     }
   }());
 }
@@ -88,6 +88,7 @@ function startBeesConfetti() {
 // --------------------------
 // Lesson 1: Visual Timer
 // --------------------------
+
 function startVisualTimer() {
   AudioManager.play('start');
   let totalTime = getTimerDuration('visualTimer');
