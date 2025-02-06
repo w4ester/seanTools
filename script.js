@@ -54,6 +54,37 @@ function getTimerDuration(timerId) {
   );
 }
 
+// Define the bees confetti effect as a function
+function startBeesConfetti() {
+  // Set the end time for the animation (15 * 200 = 3000ms)
+  var end = Date.now() + (15 * 200);
+  // Define your custom colors
+  var colors = ['#000000', '#EFBF04'];
+
+  // Recursive function to fire confetti on each animation frame
+  (function frame() {
+    confetti({
+      particleCount: 2,
+      angle: 60,
+      spread: 55,
+      origin: { x: 0 },
+      colors: colors
+    });
+    confetti({
+      particleCount: 2,
+      angle: 120,
+      spread: 55,
+      origin: { x: 1 },
+      colors: colors
+    });
+
+    // Continue until the current time is past the end time
+    if (Date.now() < end) {
+      requestAnimationFrame(frame);
+    }
+  }());
+}
+
 // --------------------------
 // Lesson 1: Visual Timer
 // --------------------------
@@ -77,6 +108,7 @@ function startVisualTimer() {
       timerContainer.classList.add('timer-complete');
       document.getElementById("reflection1").textContent = "Time's up! Great job! Did you see how the timer helped you focus?";
       document.getElementById("progress").style.width = "100%";
+      startBeesConfetti();
     } else {
       document.getElementById("timerDisplay").textContent = formatTime(timeLeft);
       let progressWidth = (timeLeft / totalTime) * 100;
