@@ -113,21 +113,22 @@ function startVisualTimer() {
         if (timeLeft < 0) {
             clearInterval(timer);
             AudioManager.play('complete');
+            
+            // Trigger confetti when the timer ends
+            triggerConfetti();
+            
             timerContainer.classList.add('timer-complete');
             document.getElementById("reflection1").textContent = "Time's up! Great job! Did you see how the timer helped you focus?";
-            
-            // Add celebration animation
             document.getElementById("progress").style.width = "100%";
         } else {
             document.getElementById("timerDisplay").textContent = formatTime(timeLeft);
             let progressWidth = (timeLeft / totalTime) * 100;
             document.getElementById("progress").style.width = progressWidth + "%";
             
-            // Handle warning state
+            // Handle warning state at 30 seconds
             if (timeLeft === 30) {
                 AudioManager.play('warning');
                 timerContainer.classList.add('timer-warning');
-                // Use gentle notification for young students
                 document.getElementById("reflection1").textContent = "Almost done! 30 seconds left to finish up!";
             }
         }
